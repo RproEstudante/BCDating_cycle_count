@@ -1,0 +1,10 @@
+exportMethods(
+    "plot",
+    "show",
+    "summary",
+	  "window"
+)
+exportClasses(
+    "BCDating" 
+)
+export(BBQ,avgts)
