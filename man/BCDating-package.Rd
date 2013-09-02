@@ -11,8 +11,8 @@ This package implements the Harding and Pagan algorithm that creates a quarterly
 \tabular{ll}{
 Package: \tab BCDating\cr
 Type: \tab Package\cr
-Version: \tab 0.9.2\cr
-Date: \tab 2013-08-08\cr
+Version: \tab 0.9.3\cr
+Date: \tab 2013-09-02\cr
 License: \tab GPL-2\cr
 Depends: \tab methods\cr
 }

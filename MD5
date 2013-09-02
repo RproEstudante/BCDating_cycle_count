@@ -1,12 +1,12 @@
-eae6116b8c9f32f7b9a973e7dce12810 *DESCRIPTION
+3f5c12da877ff3fb3ce56497744c846f *DESCRIPTION
 c51257cae11c5149adb86df3d65445b3 *NAMESPACE
 c75d1ddb6b84db460c78e8079f7fe73a *R/BCDating.R
-01da8242536d322e0f3a821c9927f648 *data/Iran.non.Oil.GDP.Cycle.rda
-f23bf3c0547bb4d1eb093aee37d9376a *data/Iran.non.Oil.GDP.Quarterly.Growth.rda
-440034f8b019f7a8a3a00a23c1ef675b *data/MBRI.Iran.Dating.rda
+1bf49269e3b27daee36de1fdf0dded66 *data/Iran.non.Oil.GDP.Cycle.rda
+dd0c68a86cff3f861cf52146dc73f397 *data/Iran.non.Oil.GDP.Quarterly.Growth.rda
+71f5c367ca0ca7cb9c70f35edcf39f6f *data/MBRI.Iran.Dating.rda
 46b1954bc129ff411a7d8643d1d5d0df *man/BBQ.Rd
 6f67474953c473524d95d5acf55b2fa7 *man/BCDating-class.Rd
-1f7c0809467c9872862e2c3ae3f32437 *man/BCDating-package.Rd
+0fdac82d6f076882ba629abbc979a357 *man/BCDating-package.Rd
 b3a305352dca1b1049e51d6e5f0490b3 *man/Iran.non.Oil.GDP.Cycle.Rd
 adf3c56733f019455bca9646b237b8d0 *man/Iran.non.Oil.GDP.Quarterly.Growth.Rd
 9fb9b7dda78c407dcd887a0be764bcec *man/MBRI.Iran.Dating.Rd
