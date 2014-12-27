@@ -11,7 +11,7 @@ Sometimes you need to know the state of economics in just a period of time. Usin
 }
 }}
 \author{
-Majid Einian,\email{einian85@gmail.com}, \cr\href{http://www.mbri.ac.ir}{Monetary and Banking Research Institute}, \href{http://www.cbi.ir}{Central Bank of Islamic Republic of Iran}
+Majid Einian,\email{m.einian@mbri.ac.ir}, \cr\href{http://www.mbri.ac.ir}{Monetary and Banking Research Institute}, \href{http://www.cbi.ir}{Central Bank of Islamic Republic of Iran}
 }
 \keyword{methods}
 \examples{

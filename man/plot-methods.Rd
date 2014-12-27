@@ -38,7 +38,7 @@
 
 
 \author{
-Majid Einian,\email{einian85@gmail.com}, \cr\href{http://www.mbri.ac.ir}{Monetary and Banking Research Institute}, \href{http://www.cbi.ir}{Central Bank of Islamic Republic of Iran}
+Majid Einian,\email{m.einian@mbri.ac.ir}, \cr\href{http://www.mbri.ac.ir}{Monetary and Banking Research Institute}, \href{http://www.cbi.ir}{Central Bank of Islamic Republic of Iran}
 
 \href{http://arnaud.ensae.net}{Franck Arnaud },
 \cr \href{http://www.insee.fr/en/}{National Institute of Statistics and Economic Studies (INSEE), France}

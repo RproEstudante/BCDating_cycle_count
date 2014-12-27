@@ -25,7 +25,7 @@ BBQ(y, mincycle = 5, minphase = 2, name = "")
 Harding, D. and Pagan A. 2002 "Dissecting the Cycle: A Methodological Investigation." \emph{Journal of Monetary Economics} \bold{49} (2), 365--381. \url{http://www.sciencedirect.com/science/article/pii/S0304393201001088}.
 }
 \author{
-Majid Einian,\email{einian85@gmail.com}, 
+Majid Einian,\email{m.einian@mbri.ac.ir}, 
 \cr\href{http://www.mbri.ac.ir}{Monetary and Banking Research Institute}, \href{http://www.cbi.ir}{Central Bank of Islamic Republic of Iran}
 
 \href{http://arnaud.ensae.net}{Franck Arnaud },

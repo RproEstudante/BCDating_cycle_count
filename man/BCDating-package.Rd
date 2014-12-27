@@ -11,15 +11,15 @@ This package implements the Harding and Pagan algorithm that creates a quarterly
 \tabular{ll}{
 Package: \tab BCDating\cr
 Type: \tab Package\cr
-Version: \tab 0.9.3\cr
-Date: \tab 2013-09-02\cr
+Version: \tab 0.9.7\cr
+Date: \tab 2014-08-04\cr
 License: \tab GPL-2\cr
 Depends: \tab methods\cr
 }
 }
 
 \author{
-Majid Einian,\email{einian85@gmail.com}, \cr\href{http://www.mbri.ac.ir}{Monetary and Banking Research Institute}, \href{http://www.cbi.ir}{Central Bank of Islamic Republic of Iran}
+Majid Einian,\email{m.einian@mbri.ac.ir}, \cr\href{http://www.mbri.ac.ir}{Monetary and Banking Research Institute}, \href{http://www.cbi.ir}{Central Bank of Islamic Republic of Iran}
 }
 
 \keyword{ package }
@@ -39,12 +39,4 @@ plot(dat,Iran.non.Oil.GDP.Cycle)
 
 data("MBRI.Iran.Dating")
 plot(MBRI.Iran.Dating)
-
-
-
-
-
-
-
-
 }

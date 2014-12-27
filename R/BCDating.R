@@ -460,43 +460,107 @@ setMethod("plot",
     signature(x = "BCDating", y = "missing"),
     function (x, y, dates =  FALSE, yearrep=2,
               col.bg=grey(0.8),col.exp=grey(1),col.rec = grey(0.45),
+              xaxs="i", yaxs="i",
               main = "", xlab = "", ylab = "", lwd=2, cex = 0.5, 
               vert=NULL, col.vert="darkblue",
               xmin=NULL, xmax=NULL, ymin=0, ymax=1,
               debug=FALSE, ...) 
     {
-    if ((nchar(x@name) > 0) & (nchar(main) == 0)) 
-      main <- paste(x@name)
-    if(is.null(xmin))
-      xmin <- as.numeric(min(time(x@states),na.rm=TRUE))-0.5
-    if(is.null(xmax))
-      xmax <- as.numeric(max(time(x@states),na.rm=TRUE))+0.5
-    xl <- xmax-xmin
-    xn <- xl*frequency(x@states)+1
-    plot(c(xmin,xmax),c(ymin,ymax),type="n", xaxs = "i", yaxs = "i", 
-         main = main, xlab = xlab, ylab = ylab)
-    back.color <- ts(data=rep(col.bg, xn),start=xmin,frequency=frequency(x@states)) #no info
-    diff <- (xmin - min(time(x@states)))*frequency(x@states)
-    back.color[which(x@states == -1)-diff] <- col.rec #recession
-    back.color[which(x@states != -1)-diff] <- col.exp #expansion
-    temps <- seq(xmin,xmax,0.25)
-    dt <- deltat(x@states)
-    rect(temps - 0.5 * dt, ymin, temps + 0.5 * dt, ymax, col = back.color,border = NA)
+      if(!is.null(main))
+        if ((nchar(x@name) > 0) & (nchar(main) == 0)) 
+          main <- paste(x@name)
+      
+      smin <- as.numeric(min(time(x@states),na.rm=TRUE))
+      smax <- as.numeric(max(time(x@states),na.rm=TRUE))
+      f <- frequency(x@states)
+      
+      if(is.null(xmin))
+      {
+        xmin <- smin - 1/f
+        xmin <- round(xmin*f)/f
+      }
+      if(is.null(xmax))
+      {      
+        xmax <- smax + 1/f
+        xmax <- round(xmax*f)/f
+      }
+             
+    suppressWarnings(
+      xstates <- window(ts(c(rep(NA,f*(smin-xmin)),x@states,rep(NA,f*(xmax-smax))),
+                        start=xmin,frequency=f),xmin,xmax))
+    xpeaks <- x@peaks + (smin-xmin)*f
+    xtroughs <- x@troughs + (smin-xmin)*f
+    
+#    xn <- length(xstates)
+
+
+    plot(c(xmin,xmax),c(ymin,ymax),type="n", xaxs = xaxs, yaxs = yaxs, 
+         main = "", xlab = "", ylab = "",...)
+    
+    #   back.color <- ts(data=rep(col.bg, xn),start=xmin,frequency=f) #no info
+    # 
+    #   back.color[which(xstates == -1)] <- col.rec #recession
+    #   back.color[which(xstates != -1)] <- col.exp #expansion
+    
+    temps <- time(xstates)
+    dt <- deltat(xstates)
+    #   rect(temps - 0.5 * dt, ymin, temps + 0.5 * dt, ymax, col = back.color,border = NA)
+    
+    ## Plotting Recessions
+    if(xpeaks[1]>xtroughs[1]){
+      a <- (smin-xmin)*f+1
+    }else{
+      a <- NULL
+    }    
+    if(xpeaks[length(xpeaks)]>xtroughs[length(xtroughs)]){
+      b <- (smax-xmin)*f+1
+    }else{
+      b <- NULL
+    }
+    rbxs <- temps[c(a,xpeaks+1)]
+    rbxe <- temps[c(xtroughs,b)]
+    
+    rect(rbxs-0.5*dt,ymin,rbxe+0.5*dt,ymax,col=col.rec,border=NA)
+    
+    ## Plotting Expansions
+    if(xpeaks[1]<xtroughs[1]){
+      a <- (smin-xmin)*f+1
+    }else{
+      a <- NULL
+    }    
+    if(xpeaks[length(xpeaks)]<xtroughs[length(xtroughs)]){
+      b <- (smax-xmin)*f+1
+    }else{
+      b <- NULL
+    }
+    
+    ebxs <- temps[c(a,xtroughs+1)]
+    ebxe <- temps[c(xpeaks,b)]
+    
+    rect(ebxs-0.5*dt,ymin,ebxe+0.5*dt,ymax,col=col.exp,border=NA)
+
+    ## Plotting Unknowns
+    ubxs <- c(temps[1],smax+1/f)
+    ubxe <- c(smin-1/f,temps[length(temps)])
+    
+    rect(ubxs-0.5*dt,ymin,ubxe+0.5*dt,ymax,col=col.bg,border=NA)
+    
     title(main=main,ylab=ylab,xlab=xlab)
     if(dates)
       {
-        Dates <- paste(substr(time(x@states),5-yearrep,4)
-                     ,cycle(x@states),sep=":")
+        Dates <- paste(substr(time(xstates),5-yearrep,4)
+                     ,cycle(xstates),sep=":")
 #        show(Dates) # ############ JUST FOR DEBUG
-       for(p in x@peaks)
+       for(p in xpeaks)
        {
-         text(x=time(x@states)[p]-0.1,y=0.8,
-             labels=Dates[p],pos=4,cex=cex)
+         text(x=time(xstates)[p]+.5/f,y=0.8*ymax,
+             labels=Dates[p],pos=4,offset=0,cex=cex)
+         lines(x=rep(time(xstates)[p],2),y=c(0.7,0.9),col="blue")
         }
-      for(p in x@troughs)
+      for(p in xtroughs)
        {
-         text(x=time(x@states)[p]-0.1,y=0.2,
-             labels=Dates[p],pos=4,cex=cex)
+         text(x=time(xstates)[p]+.5/f,y=0.2*ymax,
+             labels=Dates[p],pos=4,offset=0,cex=cex)
        }
      }
     if(!is.null(vert))
@@ -508,10 +572,11 @@ setMethod("plot",
 setMethod("plot",
           signature(x = "BCDating", y = "ts"),
           function (x, y,main = "",
-                    window=FALSE,averages=FALSE,dates=FALSE,yearrep=2,
+                    window=FALSE,Dwindow=FALSE,averages=FALSE,dates=FALSE,yearrep=2,
                     col="red",col.bg=grey(.8),col.exp=grey(1),col.rec=grey(.45),
                     cex = 0.5,xlab = "", ylab = "",lwd=2, 
                     vert=NULL, col.vert="darkblue",
+                    xmin=NULL, xmax=NULL, ymin=0, ymax=1,
                     debug=FALSE, ...) 
           {
             if(averages & !window)
@@ -519,21 +584,60 @@ setMethod("plot",
               warning("BCDating: Plotting Averages only in windowed mode")
               window = TRUE
             }
-            if ((nchar(x@name) > 0) & (nchar(main) == 0)) 
-              main <- paste(x@name)
-            if(window)
+            
+            smin <- as.numeric(min(time(x@states),na.rm=TRUE))
+            smax <- as.numeric(max(time(x@states),na.rm=TRUE))
+            f <- frequency(x@states)
+            
+            if(is.null(xmin))
             {
-              xmin <- as.numeric(min(time(x@states),na.rm=TRUE))-0.5
-              xmax <- as.numeric(max(time(x@states),na.rm=TRUE))+0.5
+              xmin <- smin - 1/f
+              xmin <- round(xmin*f)/f
+            }
+            if(is.null(xmax))
+            {      
+              xmax <- smax + 1/f
+              xmax <- round(xmax*f)/f
+            }
+            
+            suppressWarnings(
+              xstates <- window(ts(c(rep(NA,f*(smin-xmin)),x@states,rep(NA,f*(xmax-smax))),
+                                   start=xmin,frequency=f),xmin,xmax))
+            xpeaks <- x@peaks + (smin-xmin)*f
+            xtroughs <- x@troughs + (smin-xmin)*f
+            
+            if(window & !Dwindow)
+            {
               ymin <- as.numeric(min(window(y,start=tsp(x@states)[1],end=tsp(x@states)[2]),na.rm=TRUE))
               ymax <- as.numeric(max(window(y,start=tsp(x@states)[1],end=tsp(x@states)[2]),na.rm=TRUE))
-            }else
+            }else if(!window & !Dwindow)
             {
-              xmin <- as.numeric(min(time(x@states),time(y),na.rm=TRUE))-0.5
-              xmax <- as.numeric(max(time(x@states),time(y),na.rm=TRUE))+0.5
+              xmin <- as.numeric(min(time(xstates),time(y),na.rm=TRUE))
+              xmax <- as.numeric(max(time(xstates),time(y),na.rm=TRUE))
+              ymin <- as.numeric(min(y,na.rm=TRUE))
+              ymax <- as.numeric(max(y,na.rm=TRUE))
+            }else if(window & Dwindow)
+            {
+              xminy <- min(time(y),na.rm=TRUE)
+              xmind <- min(time(xstates),na.rm=TRUE)
+              xmin <- as.numeric(max(xminy,xmind,na.rm=TRUE))
+              xmaxy <- max(time(y),na.rm=TRUE)
+              xmaxd <- max(time(xstates),na.rm)
+              xmax <- as.numeric(min(xmaxy,xmaxd),na.rm=TRUE)
+              ymin <- as.numeric(min(window(y,start=xmin,end=xmax),na.rm=TRUE))
+              ymax <- as.numeric(max(window(y,start=xmin,end=xmax),na.rm=TRUE))
+            }else if(!window & Dwindow)
+            {
+              xmin <- as.numeric(min(time(y),na.rm=TRUE))
+              xmax <- as.numeric(max(time(y),na.rm=TRUE))
               ymin <- as.numeric(min(y,na.rm=TRUE))
               ymax <- as.numeric(max(y,na.rm=TRUE))
             }
+            
+            suppressWarnings(
+              xstates <- window(ts(c(rep(NA,f*(smin-xmin)),x@states,rep(NA,f*(xmax-smax))),
+                                   start=xmin,frequency=f),xmin,xmax))
+              
             yl <- ymax-ymin
             ymin <- ymin - yl/40
             ymax <- ymax + yl/40
@@ -564,23 +668,6 @@ setMethod("plot",
               }
             }
             #   points(y, pch = pch, col = col[2], cex = cex)
-            title(main=main,ylab=ylab,xlab=xlab)
-            if(dates)
-            {
-              Dates <- paste(substr(time(x@states),5-yearrep,4)
-                             ,cycle(x@states),sep=":")
-              show(Dates) # ############ JUST FOR DEBUG
-              for(p in x@peaks)
-              {
-                text(x=time(x@states)[p]-0.1,y=ymax-0.2*yl,
-                     labels=Dates[p],pos=4,cex=cex)
-              }
-              for(p in x@troughs)
-              {
-                text(x=time(x@states)[p]-0.1,y=ymin+0.2*yl,
-                     labels=Dates[p],pos=4,cex=cex)
-              }
-            }
             if(!is.null(vert))
               segments(x0=vert,y0=ymin,x1=vert,y1=ymax,col=col.vert,lwd=3,lty=2)
             
@@ -601,7 +688,7 @@ setMethod("plot",
     signature(x = "BCDating", y = "BCDating"),
     function (x, y, ...) 
     {
-        plot(list(x,y))
+        plot(list(x,y),...)
     }
 )
 

@@ -1,3 +1,4 @@
+import(methods)
 exportMethods(
     "plot",
     "show",

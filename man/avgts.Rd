@@ -24,7 +24,7 @@ A ts timeseries.
 }
 
 \author{
-Majid Einian,\email{einian85@gmail.com}, \cr\href{http://www.mbri.ac.ir}{Monetary and Banking Research Institute}, \href{http://cbi.ir/default_en.aspx}{Central Bank of Islamic Republic of Iran}
+Majid Einian,\email{m.einian@mbri.ac.ir}, \cr\href{http://www.mbri.ac.ir}{Monetary and Banking Research Institute}, \href{http://cbi.ir/default_en.aspx}{Central Bank of Islamic Republic of Iran}
 }
 
 \examples{
