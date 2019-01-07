@@ -1,4 +1,9 @@
 import(methods)
+importFrom("grDevices", "grey")
+importFrom("graphics", "box", "lines", "par", "rect", "segments",
+             "text", "title")
+importFrom("stats", "cycle", "deltat", "end", "frequency", "is.ts",
+             "na.omit", "start", "time", "ts", "tsp")
 exportMethods(
     "plot",
     "show",

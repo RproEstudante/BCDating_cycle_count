@@ -11,4 +11,4 @@ Iran.non.Oil.GDP.Cycle
 }
 \format{ts Quarterly Time Series}
 \source{Central Bank of Islamic Republic of Iran. Further calculations by Majid Einian}
-\references{Einian, M. and M. Barakchian (2012), Measuring and Dating Business Cycles of the Economy of Iran, \emph{Pool va Eqtesad}, forthcoming (in Persian)}
+\references{Einian, M. and M. Barakchian (2014), Measuring and Dating Business Cycles of the Economy of Iran, \emph{Journal of Monetary & Banking Research}, 7(20), Summer 2014, pp. 161-194. (in Persian)}

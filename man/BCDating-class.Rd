@@ -35,7 +35,7 @@ Use BBQ to create object of BCDating type from Quarterly Data.
 \references{
 Franck Arnaud's R package datation}
 \author{
-Majid Einian,\email{m.einian@mbri.ac.ir}, \cr\href{http://www.mbri.ac.ir}{Monetary and Banking Research Institute}, \href{http://www.cbi.ir}{Central Bank of Islamic Republic of Iran}
+Majid Einian,\email{m.einian@mbri.ac.ir}, \cr\href{http://www.mbri.ac.ir}{Monetary and Banking Research Institute}, \href{https://www.cbi.ir/}{Central Bank of Islamic Republic of Iran}
 
 \href{http://arnaud.ensae.net}{Franck Arnaud },
 \cr \href{http://www.insee.fr/en/}{National Institute of Statistics and Economic Studies (INSEE), France}

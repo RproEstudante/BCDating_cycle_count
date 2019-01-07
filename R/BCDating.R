@@ -98,24 +98,25 @@ BCDating.alter2 <- function (dat, y)
     anmat <- build.mat_tp(bcp, bct)
     j <- 1
     repeat {
-        state1 <- anmat[j, 2]
-        state2 <- anmat[j + 1, 2]
-        if (state1 == state2) {
-            if (state1 == 1) {
-                if (y[anmat[j, 1]] > y[anmat[j + 1, 1]]) 
-                  vire <- j + 1
-                else vire <- j
-            }
-            if (state1 == 0) {
-                if (y[anmat[j, 1]] > y[anmat[j + 1, 1]]) 
-                  vire <- j
-                else vire <- j + 1
-            }
-            anmat <- anmat[-vire, ]
+      if (j >= nrow(anmat)) 
+        break
+      state1 <- anmat[j, 2]
+      state2 <- anmat[j + 1, 2]
+      if (state1 == state2) {
+        if (state1 == 1) {
+          if (y[anmat[j, 1]] > y[anmat[j + 1, 1]]) 
+            vire <- j + 1
+          else vire <- j
         }
-        else j <- j + 1
-        if (j >= nrow(anmat)) 
-            break
+        if (state1 == 0) {
+          if (y[anmat[j, 1]] > y[anmat[j + 1, 1]]) 
+            vire <- j
+          else vire <- j + 1
+        }
+        anmat <- anmat[-vire, ]
+      }
+      else j <- j + 1
+      
     }
     if (FALSE) {
         res <- dat
@@ -172,30 +173,30 @@ BCDating.enf1p <- function (dat, y, mincycle = 5)
     bcp <- dat@peaks
     i <- 2
     repeat {
-        if (bcp[i] - bcp[i - 1] < mincycle) {
-            if (y[bcp[i]] > y[bcp[i - 1]]) 
-                vire <- i - 1
-            else vire <- i
-            bcp <- bcp[-vire]
-        }
-        else i <- i + 1
-        if (i >= length(bcp)) 
-            break
+      if (i >= length(bcp)) 
+        break
+      if (bcp[i] - bcp[i - 1] < mincycle) {
+        if (y[bcp[i]] > y[bcp[i - 1]]) 
+          vire <- i - 1
+        else vire <- i
+        bcp <- bcp[-vire]
+      }
+      else i <- i + 1
     }
     dat@peaks <- bcp
     intermediaire <- BCDating.alter2(dat, y)
     bct <- intermediaire@troughs
     i <- 2
     repeat {
-        if (bct[i] - bct[i - 1] < mincycle) {
-            if (y[bct[i]] < y[bct[i - 1]]) 
-                vire <- i - 1
-            else vire <- i
-            bct <- bct[-vire]
-        }
-        else i <- i + 1
-        if (i >= length(bct)) 
-            break
+      if (i >= length(bct)) 
+        break
+      if (bct[i] - bct[i - 1] < mincycle) {
+        if (y[bct[i]] < y[bct[i - 1]]) 
+          vire <- i - 1
+        else vire <- i
+        bct <- bct[-vire]
+      }
+      else i <- i + 1
     }
     dat@troughs <- bct
     fin <- BCDating.alter2(dat, y)
@@ -359,16 +360,17 @@ BCDating.pt2states <- function (start, end, freq, peaks, troughs)
     n <- length(states)
     mat_tp <- build.mat_tp(peaks, troughs)
     r <- nrow(mat_tp)
-    if (mat_tp[r, 1] < n) 
+    if (mat_tp[r, 1] < n)
         mat_tp <- rbind(mat_tp, c(n, 1 - mat_tp[r, 2]))
     if (peaks[1] < troughs[1]) 
         add <- 0
     else add <- 1
-    states[1:mat_tp[1, 1]] <- (-1)^add
+    states[1:(mat_tp[1, 1])] <- (-1)^add
     for (j in 1:(nrow(mat_tp) - 1)) 
     {
-      states[(mat_tp[j, 1] + 1):mat_tp[j + 1, 1]] <- (-1)^(j + add)
+      states[(mat_tp[j, 1]+1):(mat_tp[j + 1, 1])] <- (-1)^(j + add)
     }
+#    states[n] <- states[n-1]
     return(states)
 }
 
@@ -432,6 +434,7 @@ setMethod("show",
       affich <- res
       affich[, c(1, 2)] <- ts2char(object@states)[res]
       duration <- res[, 2] - res[, 1]
+      names(duration) <- NULL
       affich <- cbind(affich, duration)
       colnames(affich)[3] <- "Duration"
       res <- data.frame(affich)
@@ -461,7 +464,7 @@ setMethod("plot",
     function (x, y, dates =  FALSE, yearrep=2,
               col.bg=grey(0.8),col.exp=grey(1),col.rec = grey(0.45),
               xaxs="i", yaxs="i",
-              main = "", xlab = "", ylab = "", lwd=2, cex = 0.5, 
+              main = "", xlab = "", ylab = "", lwd=1, cex = 0.5, 
               vert=NULL, col.vert="darkblue",
               xmin=NULL, xmax=NULL, ymin=0, ymax=1,
               debug=FALSE, ...) 
@@ -564,7 +567,7 @@ setMethod("plot",
        }
      }
     if(!is.null(vert))
-      segments(x0=vert,y0=0,x1=vert,y1=1,col=col.vert,lwd=3,lty=2)
+      segments(x0=vert,y0=0,x1=vert,y1=1,col=col.vert,lwd=lwd,lty=2)
     box(which = "plot")
     }
 )
@@ -574,7 +577,7 @@ setMethod("plot",
           function (x, y,main = "",
                     window=FALSE,Dwindow=FALSE,averages=FALSE,dates=FALSE,yearrep=2,
                     col="red",col.bg=grey(.8),col.exp=grey(1),col.rec=grey(.45),
-                    cex = 0.5,xlab = "", ylab = "",lwd=2, 
+                    cex = 0.5,xlab = "", ylab = "",lwd=1, 
                     vert=NULL, col.vert="darkblue",
                     xmin=NULL, xmax=NULL, ymin=0, ymax=1,
                     debug=FALSE, ...) 
@@ -622,8 +625,8 @@ setMethod("plot",
               xmind <- min(time(xstates),na.rm=TRUE)
               xmin <- as.numeric(max(xminy,xmind,na.rm=TRUE))
               xmaxy <- max(time(y),na.rm=TRUE)
-              xmaxd <- max(time(xstates),na.rm)
-              xmax <- as.numeric(min(xmaxy,xmaxd),na.rm=TRUE)
+              xmaxd <- max(time(xstates),na.rm=TRUE)
+              xmax <- as.numeric(min(xmaxy,xmaxd,na.rm=TRUE))
               ymin <- as.numeric(min(window(y,start=xmin,end=xmax),na.rm=TRUE))
               ymax <- as.numeric(max(window(y,start=xmin,end=xmax),na.rm=TRUE))
             }else if(!window & Dwindow)
@@ -669,7 +672,7 @@ setMethod("plot",
             }
             #   points(y, pch = pch, col = col[2], cex = cex)
             if(!is.null(vert))
-              segments(x0=vert,y0=ymin,x1=vert,y1=ymax,col=col.vert,lwd=3,lty=2)
+              segments(x0=vert,y0=ymin,x1=vert,y1=ymax,col=col.vert,lwd=lwd,lty=2)
             
             box(which = "plot")
           }
@@ -765,7 +768,7 @@ setMethod("summary",
           df.print[, c(5, 6)] <- round(summarytab[, c(5, 6)], 0)
           df.print[, 7] <- round(summarytab[, 7], 1)
           colnames(df.print) <- c("Phase", "]Start", ";End]", "Duration", 
-              "LevStart", "LevEnd", "Amplitude")
+                                  "LevStart", "LevEnd", "Amplitude")
           print(df.print)
           cat("\n")
           print(round(indic, 1))

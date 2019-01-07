@@ -10,8 +10,8 @@ This is the official Dating of Business Cycles of Iran by MBRI. This is not exac
 data(MBRI.Iran.Dating)
 }
 \format{BCDating Object}
-\source{Einian, M. and M. Barakchian (2012)}
-\references{Einian, M. and M. Barakchian (2012), Measuring and Dating Business Cycles of the Economy of Iran, \emph{Pool va Eqtesad}, forthcoming (in Persian)}
+\source{Einian, M. and M. Barakchian (2014)}
+\references{Einian, M. and M. Barakchian (2014), Measuring and Dating Business Cycles of the Economy of Iran, \emph{Journal of Monetary & Banking Research}, 7(20), Summer 2014, pp. 161-194. (in Persian)}
 \examples{
 data(MBRI.Iran.Dating)
 plot(MBRI.Iran.Dating)

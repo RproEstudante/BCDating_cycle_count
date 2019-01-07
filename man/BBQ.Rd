@@ -26,7 +26,7 @@ Harding, D. and Pagan A. 2002 "Dissecting the Cycle: A Methodological Investigat
 }
 \author{
 Majid Einian,\email{m.einian@mbri.ac.ir}, 
-\cr\href{http://www.mbri.ac.ir}{Monetary and Banking Research Institute}, \href{http://www.cbi.ir}{Central Bank of Islamic Republic of Iran}
+\cr\href{http://www.mbri.ac.ir}{Monetary and Banking Research Institute}, \href{https://www.cbi.ir/}{Central Bank of Islamic Republic of Iran}
 
 \href{http://arnaud.ensae.net}{Franck Arnaud },
 \cr \href{http://www.insee.fr/en/}{National Institute of Statistics and Economic Studies (INSEE), France}
