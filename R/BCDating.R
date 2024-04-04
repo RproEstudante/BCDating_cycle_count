@@ -427,12 +427,14 @@ if (!isGeneric("show")) {
 #change made
 
 calculate_cycle_durations <- function(object) {
-  troughs.cal <- object@troughs
-  cycle_durations <- numeric(length(troughs.cal) - 1)
+  troughs <- object@troughs
+  cycle_durations <- numeric(length(troughs) - 1)
   
-  for (i in 1:(length(troughs.cal) - 1)) {
-    cycle_durations[i] <- troughs.cal[i + 1] - troughs.cal[i]
+  for (i in 1:(length(troughs) - 1)) {
+    cycle_durations[i] <- troughs[i + 1] - troughs[i]
   }
+  
+  return(cycle_durations)
 }
 
 setMethod("show",
