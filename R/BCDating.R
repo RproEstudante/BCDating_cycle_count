@@ -426,8 +426,8 @@ if (!isGeneric("show")) {
 
 #change made
 
-calculate_cycle_durations <- function(x) {
-  troughs.cal <- x@troughs
+calculate_cycle_durations <- function(object) {
+  troughs.cal <- object@troughs
   cycle_durations <- numeric(length(troughs.cal) - 1)
   
   for (i in 1:(length(troughs.cal) - 1)) {
@@ -457,6 +457,7 @@ setMethod("show",
             print(res)
           }
 )
+
 
 # Plot Method ---------------------------------------------
 
