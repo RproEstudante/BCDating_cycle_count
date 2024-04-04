@@ -424,23 +424,39 @@ if (!isGeneric("show")) {
     setGeneric("show", function(object, ...) standardGeneric("show"))
  }
 
+#change made
+
+calculate_cycle_durations <- function(x) {
+  troughs.cal <- x@troughs
+  cycle_durations <- numeric(length(troughs.cal) - 1)
+  
+  for (i in 1:(length(troughs.cal) - 1)) {
+    cycle_durations[i] <- troughs.cal[i + 1] - troughs.cal[i]
+  }
+}
+
 setMethod("show",
-    signature(object = "BCDating"),
-    function (object) 
-    {
-      if (nchar(object@name) > 0) 
-        cat("Dating name :", object@name, "\n")
-      res <- matsummary(object)
-      affich <- res
-      affich[, c(1, 2)] <- ts2char(object@states)[res]
-      duration <- res[, 2] - res[, 1]
-      names(duration) <- NULL
-      affich <- cbind(affich, duration)
-      colnames(affich)[3] <- "Duration"
-      res <- data.frame(affich)
-      print(res)
-    }
-          )
+          signature(object = "BCDating"),
+          function (object) {
+            if (nchar(object@name) > 0) 
+              cat("Dating name :", object@name, "\n")
+            
+            # Assuming calculate_cycle_durations is defined and available
+            cycle_durations <- calculate_cycle_durations(object)
+            # Prepare cycle durations for display, adding NA for the first row for alignment
+            cycle_durations_display <- c(NA, cycle_durations)
+            
+            res <- matsummary(object)
+            affich <- res
+            affich[, c(1, 2)] <- ts2char(object@states)[res]
+            duration <- res[, 2] - res[, 1]
+            names(duration) <- NULL
+            affich <- cbind(affich, "Duration" = duration, "Cycle Duration" = cycle_durations_display)
+            
+            res <- data.frame(affich)
+            print(res)
+          }
+)
 
 # Plot Method ---------------------------------------------
 
